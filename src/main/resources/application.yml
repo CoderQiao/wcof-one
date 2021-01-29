@@ -1,0 +1,18 @@
+server:
+  port: 7080
+spring:
+  application:
+    name: wcof
+  datasource:
+    hikari:
+      username: root
+      password: 129135
+      jdbc-url: jdbc:mysql://81.69.163.28:3306/test?serverTimezone=GMT%2B8&characterEncoding=utf-8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      pool-name: principalHikariCP
+      maximum-pool-size: 5
+mybatis-plus:
+  configuration:
+    cache-enabled: false
+
+
