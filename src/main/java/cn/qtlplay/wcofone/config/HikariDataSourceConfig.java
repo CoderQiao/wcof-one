@@ -15,7 +15,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @MapperScan("cn.qtlplay.wcofone.mapper")
-public class DataSourceConfig {
+public class HikariDataSourceConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.hikari")

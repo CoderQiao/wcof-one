@@ -8,5 +8,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author: Qiao Tongliang
  * @create: 2021-01-29
  */
-public interface UserTestMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<User> {
 }

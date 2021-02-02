@@ -1,9 +1,9 @@
 package cn.qtlplay.wcofone;
 
-import cn.qtlplay.wcofone.mapper.UserTestMapper;
+import cn.qtlplay.wcofone.mapper.UserMapper;
+import cn.qtlplay.wcofone.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,11 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 class WcofOneApplicationTests {
 
     @Autowired
-    private UserTestMapper userTestMapper;
+    private UserMapper userMapper;
 
     @Test
     void contextLoads() {
-        userTestMapper.selectList(null).forEach(System.out::println);
+//        userMapper.selectList(null).forEach(System.out::println);
+        User user = userMapper.selectById(2);
+        System.out.println(user.toString());
     }
 
 }

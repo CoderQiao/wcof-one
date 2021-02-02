@@ -7,12 +7,32 @@ spring:
     hikari:
       username: root
       password: 129135
-      jdbc-url: jdbc:mysql://81.69.163.28:3306/test?serverTimezone=GMT%2B8&characterEncoding=utf-8
+      jdbc-url: jdbc:mysql://81.69.163.28:3306/wcof?serverTimezone=GMT%2B8&characterEncoding=utf-8
       driver-class-name: com.mysql.cj.jdbc.Driver
       pool-name: principalHikariCP
       maximum-pool-size: 5
+  #redis 配置
+  redis:
+    database: 0
+    host: 81.69.163.28
+    lettuce:
+      pool:
+        max-active: 3   #最大连接数据库连接数,设 0 为没有限制
+        max-idle: 3     #最大等待连接中的数量,设 0 为没有限制
+        max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
+      shutdown-timeout: 100ms
+    password:
+    port: 6379
+
 mybatis-plus:
   configuration:
     cache-enabled: false
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  type-enums-package: cn.qtlplay.wcofone.model.enums
 
 
+#shiro 默认放行的url,多个url用','隔开
+wcof:
+  shiro:
+    letgo: /login,/hello
