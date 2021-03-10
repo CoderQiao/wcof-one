@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public interface UserMapper extends BaseMapper<User> {
 
-    public User getUserByName(String userName);
+    User getUserByName(String userName);
 
     /**
      * 根据用户名查询用户信息或查询所有用户信息
@@ -30,7 +30,7 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("<script>select * from t_user where 1=1 " +
             "<if test='userName!=null and userName!=\"\"'>userName=#{userName}</if>" +
             "</script>")
-    public IPage<User> getAllUserOrByNameSearchWithPaginationInterceptor(IPage<User> page, @Param("userName") String userName);
+    IPage<User> getAllUserOrByNameSearchWithPaginationInterceptor(IPage<User> page, @Param("userName") String userName);
 
     /**
      * 通过用户名查询角色集合
@@ -38,7 +38,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @return set
      */
     @Select("select role from t_user WHERE user_name=#{userName}")
-    public Set<String> queryRolesByUserName(String userName);
-
+    Set<String> queryRolesByUserName(String userName);
 
 }
