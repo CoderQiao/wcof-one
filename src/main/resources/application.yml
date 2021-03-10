@@ -35,4 +35,12 @@ mybatis-plus:
 #shiro 默认放行的url,多个url用','隔开
 wcof:
   shiro:
-    letgo: /login,/hello
+    letgo: /login,/hello,/unauthorized
+
+#阿里云对象存储服务oss配置
+aliyun:
+  oss:
+    end-point: oss-cn-shanghai.aliyuncs.com
+    access-key-id: LTAI4G7dGRcDRtBM1Fk1ebmX
+    access-key-secret: Jrxxb6jEva66i0tGkOfUSwfyHS7kZk
+    bucket: oss-qiao

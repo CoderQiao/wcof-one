@@ -1,4 +1,10 @@
+/*
 package cn.qtlplay.wcofone.exception;
+
+*/
+/**
+ * @author Administrator
+ *//*
 
 public class JeecgBootException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
@@ -17,3 +23,4 @@ public class JeecgBootException extends RuntimeException {
 		super(message,cause);
 	}
 }
+*/

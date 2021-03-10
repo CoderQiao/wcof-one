@@ -4,6 +4,7 @@ import cn.qtlplay.wcofone.config.shiro.JwtToken;
 import cn.qtlplay.wcofone.util.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,12 +32,15 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        try {
-            executeLogin(request, response);
-            return true;
-        } catch (Exception e) {
-            throw new AuthenticationException("Token失效，请重新登录", e);
-        }
+//        try {
+//            executeLogin(request, response);
+//            return true;
+//        } catch (Exception e) {
+//            throw new AuthenticationException("Token失效，请重新登录", e);
+//        }
+
+        //开发时，请求全部放行
+        return true;
     }
 
     /**
@@ -46,7 +50,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader(CommonConstant.X_ACCESS_TOKEN);
-
+        if (token==null|| "".equals(token)){
+            throw new AuthenticationException("token为空！");
+        }
         JwtToken jwtToken = new JwtToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(jwtToken);

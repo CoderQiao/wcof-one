@@ -1,3 +1,4 @@
+/*
 package cn.qtlplay.wcofone.exception;
 
 import cn.qtlplay.wcofone.model.vo.Result;
@@ -13,19 +14,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+*/
 /**
  * 异常处理器
  *
  * @Author scott
  * @Date 2019
- */
+ *//*
+
 @RestControllerAdvice
 @Slf4j
 public class JeecgBootExceptionHandler {
 
-	/**
+	*/
+/**
 	 * 处理自定义异常
-	 */
+	 *//*
+
 	@ExceptionHandler(JeecgBootException.class)
 	public Result<?> handleRRException(JeecgBootException e){
 		log.error(e.getMessage(), e);
@@ -56,11 +61,13 @@ public class JeecgBootExceptionHandler {
 		return Result.error("操作失败，"+e.getMessage());
 	}
 
-	/**
+	*/
+/**
 	 * @Author 政辉
 	 * @param e
 	 * @return
-	 */
+	 *//*
+
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public Result<?> HttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
 		StringBuffer sb = new StringBuffer();
@@ -80,9 +87,11 @@ public class JeecgBootExceptionHandler {
 		return Result.error(405,sb.toString());
 	}
 
-	 /**
+	 */
+/**
 	  * spring默认上传大小100MB 超出大小捕获异常MaxUploadSizeExceededException
-	  */
+	  *//*
+
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public Result<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
     	log.error(e.getMessage(), e);
@@ -102,3 +111,4 @@ public class JeecgBootExceptionHandler {
     }
 
 }
+*/

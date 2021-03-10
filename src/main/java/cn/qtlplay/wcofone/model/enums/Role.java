@@ -1,6 +1,7 @@
 package cn.qtlplay.wcofone.model.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,6 +13,7 @@ import lombok.ToString;
  */
 @Getter
 @ToString
+@AllArgsConstructor
 public enum Role {
 
     /**
@@ -26,9 +28,5 @@ public enum Role {
 
     @EnumValue
     private String type;
-
-    private Role(String type){
-        this.type = type;
-    }
 
 }

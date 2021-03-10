@@ -1,12 +1,10 @@
 package cn.qtlplay.wcofone.model;
 
-import cn.qtlplay.wcofone.model.enums.Role;
 import cn.qtlplay.wcofone.model.enums.Status;
+import cn.qtlplay.wcofone.model.enums.Used;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,30 +14,22 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Date;
 
 /**
- * @description: test
+ * @description: 桌子
  * @author: Qiao Tongliang
- * @create: 2021-01-29
+ * @create: 2021-02-20
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Validated
-@TableName("t_user")
-public class User {
-    /**
-     * 主键自增
-     */
+@TableName("t_table")
+public class Table {
     @TableId(type = IdType.AUTO)
-    private Integer uId;
+    private Integer tId;
     @NotNull
-    private String userName;
-    @NotNull
-    private String password;
-    private Role role;
+    private String tName;
     private Status status;
-    /**
-     * 默认值在service中指定
-     */
+    private Used used;
     private Date createTime;
     private Date updateTime;
 }

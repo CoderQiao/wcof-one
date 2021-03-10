@@ -1,16 +1,22 @@
 package cn.qtlplay.wcofone.controller;
 
-import cn.qtlplay.wcofone.mapper.UserMapper;
+import cn.qtlplay.wcofone.exception.MyRuntimeException;
 import cn.qtlplay.wcofone.model.User;
 import cn.qtlplay.wcofone.model.vo.Result;
+import cn.qtlplay.wcofone.service.OssService;
+import cn.qtlplay.wcofone.service.UserService;
+import cn.qtlplay.wcofone.util.CommonConstant;
 import cn.qtlplay.wcofone.util.JwtUtil;
 import cn.qtlplay.wcofone.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @description: hello
@@ -22,31 +28,59 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class HelloController {
 
-    @Autowired
-    private UserMapper userMapper;
+    @Resource
+    @Lazy
+    private UserService userService;
 
-    @Autowired
+    @Resource
+    @Lazy
     RedisUtil redisUtil;
+
+    @Resource
+    @Lazy
+    OssService ossService;
 
     @ApiOperation(value = "hello operation")
     @GetMapping("/hello")
     public String hello(){return "hello";}
 
     @GetMapping("/login")
-    public Result<String> login(User user){
+    public Result<String> login(@RequestBody User user, HttpServletResponse response){
         Result<String> result = new Result<>();
-        User nUser = userMapper.selectById(2);
+        User nUser = userService.getUserByName(user.getUserName());
+        if(nUser == null){
+            log.error("用户不存在!");
+            throw new MyRuntimeException("用户不存在!");
+        }
+        if(!nUser.getPassword().equals(user.getPassword())){
+            log.error("用户名或密码不正确！");
+            throw new MyRuntimeException("用户名或密码不正确！");
+        }
         String token = JwtUtil.sign(nUser.getUserName(),nUser.getPassword());
         log.info("token:"+token);
-        boolean yes = redisUtil.set("qiao_token",token);
-        String userName = JwtUtil.getUsername(token);
-        if(yes){
-            log.info("token发送redis成功！");
-            log.info(userName);
-        }
-        result.setMessage("登录成功！");
-        result.setCode(200);
-        return result;
+        redisUtil.set(CommonConstant.PREFIX_USER_TOKEN,token);
+
+        response.setHeader(CommonConstant.PREFIX_USER_TOKEN,token);
+        return Result.OK("登录成功！");
+    }
+
+    @GetMapping("/unauthorized")
+    public String unauthorized(){
+        return "未认证！";
+    }
+
+    //存在问题
+    //@RequiresRoles("admin")
+    @GetMapping("/test")
+    public String testUnauthorized(){
+
+        return "测试成功！";
+    }
+
+    @PostMapping("/upload")
+    public Result<String> upload(@RequestParam("image")MultipartFile multipartFile){
+        String url = ossService.uploadPic(multipartFile);
+        return Result.OK("上传成功！URL:"+url);
     }
 
 }

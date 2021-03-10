@@ -6,26 +6,26 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * @description: 状态枚举类
+ * @description: 表示使用情况，已用或未用
  * @author: Qiao Tongliang
- * @create: 2021-02-02
+ * @create: 2021-02-20
  */
 @Getter
 @ToString
 @AllArgsConstructor
-public enum Status {
+public enum Used {
 
     /**
-     * 正常使用
+     * 已用
      */
-    NORMAL("正常"),
+    USED("已用"),
 
     /**
-     * 被锁定，不能正常使用
+     * 未用
      */
-    LOCKED("锁定");
+    UNUSED("未用");
 
     @EnumValue
-    private final String status;
+    private final String used;
 
 }

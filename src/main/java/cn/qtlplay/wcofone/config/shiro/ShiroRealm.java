@@ -1,7 +1,9 @@
 package cn.qtlplay.wcofone.config.shiro;
 
+import cn.qtlplay.wcofone.mapper.UserMapper;
 import cn.qtlplay.wcofone.model.User;
 import cn.qtlplay.wcofone.model.enums.Status;
+import cn.qtlplay.wcofone.service.UserService;
 import cn.qtlplay.wcofone.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
@@ -27,9 +29,10 @@ import java.util.Set;
 @Component
 @Slf4j
 public class ShiroRealm extends AuthorizingRealm {
-	@Lazy
-    @Resource
-    private CommonAPI commonAPI;
+
+	@Resource
+    @Lazy
+	private UserService userService;
 
     @Lazy
     @Resource
@@ -62,12 +65,10 @@ public class ShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
         // 设置用户拥有的角色集合，比如“admin,test”
-        Set<String> roleSet = commonAPI.queryUserRoles(username);
+        Set<String> roleSet = userService.queryRolesByUserName(username);
+        System.out.println(roleSet.toString());
         info.setRoles(roleSet);
 
-        // 设置用户拥有的权限集合，比如“sys:role:add,sys:user:add”
-        Set<String> permissionSet = commonAPI.queryUserAuths(username);
-        info.addStringPermissions(permissionSet);
         log.info("===============Shiro权限认证成功==============");
         return info;
     }
@@ -108,13 +109,13 @@ public class ShiroRealm extends AuthorizingRealm {
 
         // 查询用户信息
         log.debug("———校验token是否有效————checkUserTokenIsEffect——————— "+ token);
-        User loginUser = commonAPI.getUserByName(username);
+        User loginUser = userService.getUserByName(username);
         if (loginUser == null) {
             throw new AuthenticationException("用户不存在!");
         }
         // 判断用户状态
         if (Status.LOCKED.equals(loginUser.getStatus())) {
-            throw new AuthenticationException("账号已被锁定,请联系管理员!");
+            throw new AuthenticationException("账号已被锁定,请联系超级管理员!");
         }
         // 校验token是否超时失效 & 或者账号密码是否错误
         if (!jwtTokenRefresh(token, username, loginUser.getPassword())) {
@@ -138,7 +139,7 @@ public class ShiroRealm extends AuthorizingRealm {
      * @return
      */
     public boolean jwtTokenRefresh(String token, String userName, String passWord) {
-        String cacheToken = String.valueOf(redisUtil.get(CommonConstant.PREFIX_USER_TOKEN + token));
+        String cacheToken = String.valueOf(redisUtil.get(CommonConstant.PREFIX_USER_TOKEN));
         if (oConvertUtils.isNotEmpty(cacheToken)) {
             // 校验token有效性
             if (!JwtUtil.verify(cacheToken, userName, passWord)) {

@@ -79,8 +79,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "jwt");
 
         // 未授权界面返回JSON
-        shiroFilterFactoryBean.setUnauthorizedUrl("/sys/common/403");
-        shiroFilterFactoryBean.setLoginUrl("/sys/common/403");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

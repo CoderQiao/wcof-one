@@ -1,6 +1,6 @@
 package cn.qtlplay.wcofone.util;
 
-import cn.qtlplay.wcofone.exception.JeecgBootException;
+import cn.qtlplay.wcofone.exception.MyRuntimeException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -73,13 +73,13 @@ public class JwtUtil {
 	 *
 	 * @param request
 	 * @return
-	 * @throws JeecgBootException
+	 * @throws MyRuntimeException
 	 */
-	public static String getUserNameByToken(HttpServletRequest request) throws JeecgBootException {
+	public static String getUserNameByToken(HttpServletRequest request) throws MyRuntimeException {
 		String accessToken = request.getHeader("X-Access-Token");
 		String username = getUsername(accessToken);
 		if (oConvertUtils.isEmpty(username)) {
-			throw new JeecgBootException("未获取到用户");
+			throw new MyRuntimeException("未获取到用户");
 		}
 		return username;
 	}
